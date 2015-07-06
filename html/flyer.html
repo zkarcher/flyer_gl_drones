@@ -14,14 +14,47 @@
 	<script language="JavaScript" type="text/javascript" src="js/vendor/threejs/three.min.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/vendor/threejs/stats.min.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/vendor/greensock/TweenLite.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="js/vendor/greensock/plugins/CSSPlugin.min.js"></script>
 
 	<script language="JavaScript" type="text/javascript" src="js/util/math_util.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/classes/Copter.js"></script>
 	<script language="JavaScript" type="text/javascript" src="js/flyer.js"></script>
+
+	<style>
+	@font-face {
+    font-family: Upheaval;
+    src: url('font/upheavtt.ttf');
+	}
+
+	a {
+		color: #ffbb00;
+		text-decoration: none;
+	}
+	</style>
 </head>
 
 <body style="margin:0; padding:0; overflow:hidden;">
-	<canvas id="flyer_canvas" width="480" height="480" style="position:fixed; top:50%; left:50%; transform:translate(-240px,-240px);"></canvas>
+	<canvas id="flyer_canvas" width="480" height="480" style="position:fixed; top:0; left:0;"></canvas>
+
+	<div style="width: 480px; height:480px; position: fixed; top:0; left:0; overflow:hidden; color:#f8ffff; text-shadow: 0 0 10px #000000, 0 0 20px #000000, 0 0 30px #000000, -2px -2px 1px #000000, 2px -2px 1px #000000, -2px 2px 1px #000000, 2px 2px 1px #000000; font-family:Upheaval; letter-spacing: 0.2em;">
+
+		<!-- dest top: 50px -->
+		<div id="title" style="position: fixed; top: 510px; width: 480px; text-align: center; font-size: 50px; line-height:0.9em;">
+			OPEN SOURCE<br/>DRONE WORKSHOP
+		</div>
+
+		<!-- dest bottom: ~480px -->
+		<div id="info" style="position: fixed; bottom:50px; left: 10px; font-size: 18px; line-height: 1.1em; margin: 0; padding: 0;">
+			Sunday July 26th, 1-5pm<br/>
+			<a href="https://ctrlh.org/">Ctrl-H</a>, 7608 N. Interstate<br/>
+			Portland OR 97217<br/>
+			<br/>
+			Everyone welcome! All ages!<br/>
+			Free! Donate to Ctrl-H if you can.<br/>
+			<a href="http://dorkbotpdx.org/drones_2015/">http://dorkbotpdx.org/drones_2015/</a>
+		</div>
+
+	</div>
 </body>
 
 </html>

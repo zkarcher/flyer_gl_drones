@@ -30,7 +30,7 @@ function Copter( scene ){
 
 	var hue = 0.5;// + (0.1667/2) * distanceRatio;
 	var saturation = lerp( 1.0, 0.5, distanceRatio );
-	var value = (1.0-distanceRatio);
+	var value = (1.0-distanceRatio*0.8);
 	var color0 = hsv2hex( hue, saturation, value );
 	var color1 = hsv2hex( rand(), saturation, 1.0-value );
 

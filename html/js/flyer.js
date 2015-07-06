@@ -44,6 +44,20 @@ var Flyer = function(){
 		*/
 	}
 
+	function getQueryParams() {
+	    qs = document.location.search.replace(/\+/g, " ");
+	    var params = {},
+	        re = /[?&]?([^=]+)=([^&]*)/g,
+	        tokens;
+
+	    while (tokens = re.exec(qs)) {
+	        params[decodeURIComponent(tokens[1])]
+	            = decodeURIComponent(tokens[2]);
+	    }
+
+	    return params;
+	}
+
 	function init3D(){
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera();
@@ -52,11 +66,14 @@ var Flyer = function(){
 		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas} );
 		renderer.setClearColor( 0xfffff8, 1.0 );
 
-		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		stats.domElement.style.left = '0px';
-		document.body.appendChild( stats.domElement );
+		var qs = getQueryParams();
+		if( qs['fps'] ) {
+			stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			stats.domElement.style.left = '0px';
+			document.body.appendChild( stats.domElement );
+		}
 
 		for( var i=0; i<COPTER_COUNT; i++ ) {
 			var copter = new Copter( scene );
@@ -64,6 +81,12 @@ var Flyer = function(){
 		}
 	}
 
+	function tweenText(){
+		TweenLite.to( document.getElementById('title'), 1.5, {delay:3.5, css:{top:"80px"}, ease:Power2.easeOut} );
+		TweenLite.to( document.getElementById('info'), 1.5, {delay:5.0, css:{bottom:"430px"}, ease:Power2.easeOut} );
+	}
+
+	var didTweenText = false;
 	function perFrame() {
 		requestAnimationFrame( perFrame );
 
@@ -82,6 +105,14 @@ var Flyer = function(){
 		renderer.render( scene, camera );
 
 		if( stats ) stats.update();
+
+		// Make sure DOM is ready before tweening text
+		if( !didTweenText ) {
+			if( document.getElementById('title') ) {
+				didTweenText = true;
+				tweenText();
+			}
+		}
 	}
 
 	// Create scene & camera
