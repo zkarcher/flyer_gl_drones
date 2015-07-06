@@ -56,8 +56,10 @@ var Flyer = function(){
 		stats.domElement.style.left = '0px';
 		document.body.appendChild( stats.domElement );
 
-		var copter = new Copter( scene );
-		copters.push( copter );
+		for( var i=0; i<30; i++ ) {
+			var copter = new Copter( scene );
+			copters.push( copter );
+		}
 	}
 
 	function perFrame() {
