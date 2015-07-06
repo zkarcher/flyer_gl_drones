@@ -13,6 +13,8 @@ var Flyer = function(){
 
 	var flyer_canvas = document.getElementById( "flyer_canvas" );
 
+	var copters = [];
+
 	document.onkeydown = function(evt){
 		/*
 		//console.log("down", evt.keyCode);
@@ -53,6 +55,9 @@ var Flyer = function(){
 		stats.domElement.style.top = '0px';
 		stats.domElement.style.left = '0px';
 		document.body.appendChild( stats.domElement );
+
+		var copter = new Copter( scene );
+		copters.push( copter );
 	}
 
 	function perFrame() {
@@ -65,6 +70,10 @@ var Flyer = function(){
 		var timeMult = elapsed * 60.0;			// Animations are cooked at 60fps :P
 		timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
 		prevMS = ms;
+
+		for( var i=0; i<copters.length; i++ ) {
+			copters[i].perFrame( timeMult );
+		}
 
 		renderer.render( scene, camera );
 
