@@ -82,8 +82,9 @@ var Flyer = function(){
 	}
 
 	function tweenText(){
-		TweenLite.to( document.getElementById('title'), 1.5, {delay:3.5, css:{top:"80px"}, ease:Power2.easeOut} );
-		TweenLite.to( document.getElementById('info'), 1.5, {delay:5.0, css:{bottom:"430px"}, ease:Power2.easeOut} );
+		TweenLite.to( document.getElementById('punk'), 1.5, {delay:4.5, css:{top:"114px"}, ease:Power2.easeOut} );
+		TweenLite.to( document.getElementById('title'), 1.5, {delay:3.5, css:{top:"60px"}, ease:Power2.easeOut} );
+		TweenLite.to( document.getElementById('info'), 1.5, {delay:5.0, css:{bottom:"410px"}, ease:Power2.easeOut} );
 	}
 
 	var didTweenText = false;
