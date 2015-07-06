@@ -3,6 +3,8 @@ console.log("Hello world! Unleash the drones");
 const WIDTH = 480;
 const HEIGHT = 480;
 
+const COPTER_COUNT = 90;
+
 var Flyer = function(){
 	var self = this;
 
@@ -48,7 +50,7 @@ var Flyer = function(){
 		//scene.add( camera );
 
 		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas} );
-		renderer.setClearColor( 0xffffee, 1.0 );
+		renderer.setClearColor( 0xfffff8, 1.0 );
 
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
@@ -56,7 +58,7 @@ var Flyer = function(){
 		stats.domElement.style.left = '0px';
 		document.body.appendChild( stats.domElement );
 
-		for( var i=0; i<30; i++ ) {
+		for( var i=0; i<COPTER_COUNT; i++ ) {
 			var copter = new Copter( scene );
 			copters.push( copter );
 		}
@@ -73,7 +75,7 @@ var Flyer = function(){
 		timeMult = Math.min( 4.0, timeMult );	// Prevent grievous skipping
 		prevMS = ms;
 
-		for( var i=0; i<copters.length; i++ ) {
+		for( var i=0; i<COPTER_COUNT; i++ ) {
 			copters[i].perFrame( timeMult );
 		}
 

@@ -4,7 +4,7 @@ var rotorGeom = null;
 const TORUS_RADIUS = 10.0;
 const TUBE_THICKNESS = 0.4;
 const TUBE_SEGMENTS = 6;
-const COPTER_Z = -40;
+const COPTER_Z = -20;
 const ROTOR_RADIUS = 4.0;
 const ROTOR_PARTIAL_ALPHA = 0.3;
 
@@ -20,11 +20,23 @@ function Copter( scene ){
 	}
 
 	var distanceRatio = rand();
-	var targetLoc = new THREE.Vector3( randBi(10.0), randBi(10.0), COPTER_Z + distanceRatio*20.0 );
-	var loc = new THREE.Vector3( targetLoc.x, -100.0, targetLoc.z + randBi(20.0) );
+	const LOC_SPREAD = 15.0;
+	var spread = LOC_SPREAD * (1.0+distanceRatio*0.7);
+	var targetLoc = new THREE.Vector3( randBi(spread), randBi(spread), COPTER_Z - distanceRatio*30.0 );
+	var loc = new THREE.Vector3( targetLoc.x, randRange(-100.0,-10000.0), targetLoc.z + randBi(40.0) );
 	var warblePhase = rand(999);
 
 	var spr;
+
+	var hue = 0.5;// + (0.1667/2) * distanceRatio;
+	var saturation = lerp( 1.0, 0.5, distanceRatio );
+	var value = (1.0-distanceRatio);
+	var color0 = hsv2hex( hue, saturation, value );
+	var color1 = hsv2hex( rand(), saturation, 1.0-value );
+
+	function tweenToNewTargetLoc(){
+		TweenLite.to( targetLoc, randRange(3.0,5.0), {x:randBi(spread), y:randBi(spread), ease:Power2.easeInOut} );
+	}
 
 	function initGeom(){
 		spr = new THREE.Group;
@@ -32,8 +44,8 @@ function Copter( scene ){
 		spr.scale.set( SCALE, SCALE, SCALE );
 		scene.add( spr );
 
-		var material = new THREE.MeshBasicMaterial({ color:0x008888 });
-		var materialAlpha = new THREE.MeshBasicMaterial({ color:0xff0000, opacity:ROTOR_PARTIAL_ALPHA, transparent:true });
+		var material = new THREE.MeshBasicMaterial({ color:color0, depthTest:true, depthWrite:true });
+		var materialAlpha = new THREE.MeshBasicMaterial({ color:color1, opacity:ROTOR_PARTIAL_ALPHA, transparent:true, depthTest:true, depthWrite:true });
 
 		// Shared geometry, reusable by each Copter
 		if( !copterGeom ) {
@@ -102,21 +114,22 @@ function Copter( scene ){
 	initGeom();
 
 	self.perFrame = function( timeMult ) {
-		/*
-		spr.rotation.x += 0.01 * timeMult;
-		spr.rotation.y += 0.02 * timeMult;
-		*/
-		spr.rotation.x = 0.5;
-
 		for( var i=0; i<4; i++ ) {
 			rotors[i].rotation.z += rotorSpeeds[i]*timeMult;
 		}
 
-		warblePhase += rand()*0.03*timeMult;
-		var warbleLoc = targetLoc.clone().add( new THREE.Vector3( Math.cos(warblePhase*2.0), Math.sin(warblePhase*3.0), 0 ) );
-
+		warblePhase += rand()*0.02*timeMult;
+		var warbleVector = new THREE.Vector3( Math.cos(warblePhase*2.0), Math.sin(warblePhase*3.0), 0 ).multiplyScalar(3.0);
+		var warbleLoc = targetLoc.clone().add( warbleVector );
 		loc.lerp( targetLoc, 0.02 ).lerp( warbleLoc, 0.02 );
 
+		spr.rotation.x = 0.5 + Math.cos(warblePhase*1.3)*0.3;
+		spr.rotation.z = Math.sin(warblePhase*0.2)*0.1;
+
 		spr.position.copy( loc );
+
+		if( rand()<0.002 ) {
+			tweenToNewTargetLoc();
+		}
 	}
 }
