@@ -1,7 +1,7 @@
 # flyer_gl_drones
 WebGL flyer for Dorkbot workshop.
 
-Live demo: http://zacharcher.com/lab/2015/flyer_gl_drones/r001/flyer.html
+Live demo: http://zacharcher.com/lab/2015/flyer_gl_drones/r002/flyer.html
 
 ---
 
