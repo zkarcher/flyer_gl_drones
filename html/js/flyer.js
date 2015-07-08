@@ -38,6 +38,7 @@ var Flyer = function(){
 
 		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas, antialias:true} );
 		renderer.setClearColor( 0xfffff8, 1.0 );
+		renderer.sortObjects = false;	// render first-added objects first
 
 		var qs = getQueryParams();
 		if( qs['fps'] ) {
@@ -48,8 +49,15 @@ var Flyer = function(){
 			document.body.appendChild( stats.domElement );
 		}
 
+		// Optimization: painter's algorithm. Render Copters back to front
+		var ratios = [];
 		for( var i=0; i<COPTER_COUNT; i++ ) {
-			var copter = new Copter( scene );
+			ratios.push( rand() );
+		}
+		//ratios.sort();
+
+		for( var i=0; i<COPTER_COUNT; i++ ) {
+			var copter = new Copter( scene, ratios[COPTER_COUNT-i-1] );
 			copters.push( copter );
 		}
 	}

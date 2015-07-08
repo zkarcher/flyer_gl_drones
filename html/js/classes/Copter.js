@@ -10,7 +10,7 @@ const ROTOR_PARTIAL_ALPHA = 0.3;
 
 const SCALE = 0.25;
 
-function Copter( scene ){
+function Copter( scene, distanceRatio ){
 	var self = this;
 
 	var rotors = [];
@@ -19,7 +19,6 @@ function Copter( scene ){
 		rotorSpeeds[i] = randRange( 0.5, 1.0 );
 	}
 
-	var distanceRatio = rand();
 	const LOC_SPREAD = 15.0;
 	var spread = LOC_SPREAD * (1.0+distanceRatio*0.7);
 	var targetLoc = new THREE.Vector3( randBi(spread), randBi(spread), COPTER_Z - distanceRatio*30.0 );
@@ -104,12 +103,15 @@ function Copter( scene ){
 
 				rotor.add( blades0 );
 				rotor.add( blades1 );
+
+				blades0.renderOrder = blades1.renderOrder = loc.z;
 			}
 
 		}
 
 		var copter = new THREE.Mesh( copterGeom, material );
 		spr.add( copter );
+		copter.renderOrder = loc.z;
 	}
 	initGeom();
 
