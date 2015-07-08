@@ -17,33 +17,6 @@ var Flyer = function(){
 
 	var copters = [];
 
-	document.onkeydown = function(evt){
-		/*
-		//console.log("down", evt.keyCode);
-		if( (37<=evt.keyCode) && (evt.keyCode<=40) ) {
-			isKeyboardDriving = true;
-
-			switch( evt.keyCode ) {
-				case 37:	keyDirX = -1; break;	// left
-				case 39:	keyDirX = 1; break;	// right
-				case 38:	keyDirY = 1; break;	// up
-				case 40:	keyDirY = -1; break;	// down
-			}
-		}
-		*/
-	}
-	document.onkeyup = function(evt){
-		/*
-		//console.log("up", evt.keyCode);
-		switch( evt.keyCode ) {
-			case 37:	if( keyDirX === -1) { keyDirX = 0; break; }	// left
-			case 39:	if( keyDirX === 1) { keyDirX = 0; break; }	// right
-			case 38:	if( keyDirY === 1 ) { keyDirY = 0; break; }	// up
-			case 40:	if( keyDirY === -1 ) { keyDirY = 0; break; }	// down
-		}
-		*/
-	}
-
 	function getQueryParams() {
 	    qs = document.location.search.replace(/\+/g, " ");
 	    var params = {},
@@ -63,7 +36,7 @@ var Flyer = function(){
 		camera = new THREE.PerspectiveCamera();
 		//scene.add( camera );
 
-		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas} );
+		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas, antialias:true} );
 		renderer.setClearColor( 0xfffff8, 1.0 );
 
 		var qs = getQueryParams();

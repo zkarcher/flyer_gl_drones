@@ -26,7 +26,7 @@ function Copter( scene ){
 	var loc = new THREE.Vector3( targetLoc.x, randRange(-100.0,-10000.0), targetLoc.z + randBi(40.0) );
 	var warblePhase = rand(999);
 
-	var spr;
+	var spr = new THREE.Group();
 
 	var hue = 0.5;// + (0.1667/2) * distanceRatio;
 	var saturation = lerp( 1.0, 0.5, distanceRatio );
@@ -39,7 +39,6 @@ function Copter( scene ){
 	}
 
 	function initGeom(){
-		spr = new THREE.Group;
 		spr.position.z = COPTER_Z;
 		spr.scale.set( SCALE, SCALE, SCALE );
 		scene.add( spr );
@@ -50,7 +49,7 @@ function Copter( scene ){
 		// Shared geometry, reusable by each Copter
 		if( !copterGeom ) {
 			// radius, tube diam, radial segments, tubular segments
-			var copterGeom = new THREE.TorusGeometry( TORUS_RADIUS, TUBE_THICKNESS, TUBE_SEGMENTS, 50 );
+			var copterGeom = new THREE.TorusGeometry( TORUS_RADIUS, TUBE_THICKNESS, TUBE_SEGMENTS, 25 );
 
 			var peaceArmTopBottomGeom = new THREE.CylinderGeometry( TUBE_THICKNESS, TUBE_THICKNESS, TORUS_RADIUS*2, TUBE_SEGMENTS, 1, false );
 			copterGeom.merge( peaceArmTopBottomGeom );
@@ -76,7 +75,7 @@ function Copter( scene ){
 			// Four spheres where the rotors will be
 			for( var i=0; i<4; i++ ) {
 				var SPHERE_RADIUS = 1.2;
-				var sphereGeom = new THREE.SphereGeometry( SPHERE_RADIUS, 6, 6 );
+				var sphereGeom = new THREE.SphereGeometry( SPHERE_RADIUS, 4, 4 );
 				var angle = ((i+0.5)/2.0) * Math.PI;
 				var loc = new THREE.Vector3(
 					Math.cos(angle)*TORUS_RADIUS*1.07,
@@ -94,8 +93,9 @@ function Copter( scene ){
 				rotors.push( rotor );
 
 				if( !rotorGeom ) {
-					rotorGeom = new THREE.CircleGeometry( ROTOR_RADIUS, 8, 0, Math.PI*0.5 );
-					rotorGeom.merge( new THREE.CircleGeometry( ROTOR_RADIUS, 8, Math.PI, Math.PI*0.5 ) );
+					const ROTOR_BLADE_TRIS = 4;
+					rotorGeom = new THREE.CircleGeometry( ROTOR_RADIUS, ROTOR_BLADE_TRIS, 0, Math.PI*0.5 );
+					rotorGeom.merge( new THREE.CircleGeometry( ROTOR_RADIUS, ROTOR_BLADE_TRIS, Math.PI, Math.PI*0.5 ) );
 				}
 
 				var blades0 = new THREE.Mesh( rotorGeom, material );
