@@ -130,7 +130,7 @@ function Copter( scene, distanceRatio ){
 
 		spr.position.copy( loc );
 
-		if( rand()<0.002 ) {
+		if( rand()<0.002 && false ) {
 			tweenToNewTargetLoc();
 		}
 	}

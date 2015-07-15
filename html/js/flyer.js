@@ -67,6 +67,7 @@ var Flyer = function(){
 	const INFO_TOP = 280;
 
 	function tweenText(){
+		return;
 		TweenLite.to( document.getElementById('title'), 1.5, {delay:3.5, css:{top:TITLE_TOP+"px"}, ease:Power2.easeOut} );
 		TweenLite.to( document.getElementById('punk'), 1.5, {delay:4.5, css:{top:PUNK_TOP+"px"}, ease:Power2.easeOut} );
 		TweenLite.to( document.getElementById('info'), 1.5, {delay:5.0, css:{top:INFO_TOP+"px"}, ease:Power2.easeOut, onComplete:forceRepaintCSS} );
