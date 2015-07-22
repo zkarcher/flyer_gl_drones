@@ -18,17 +18,17 @@ var Flyer = function(){
 	var copters = [];
 
 	function getQueryParams() {
-	    qs = document.location.search.replace(/\+/g, " ");
-	    var params = {},
-	        re = /[?&]?([^=]+)=([^&]*)/g,
-	        tokens;
+			qs = document.location.search.replace(/\+/g, " ");
+			var params = {},
+					re = /[?&]?([^=]+)=([^&]*)/g,
+					tokens;
 
-	    while (tokens = re.exec(qs)) {
-	        params[decodeURIComponent(tokens[1])]
-	            = decodeURIComponent(tokens[2]);
-	    }
+			while (tokens = re.exec(qs)) {
+					params[decodeURIComponent(tokens[1])]
+							= decodeURIComponent(tokens[2]);
+			}
 
-	    return params;
+			return params;
 	}
 
 	function init3D(){
@@ -36,11 +36,19 @@ var Flyer = function(){
 		camera = new THREE.PerspectiveCamera();
 		//scene.add( camera );
 
-		renderer = new THREE.WebGLRenderer( {canvas:flyer_canvas, antialias:true} );
+		var qs = getQueryParams();
+
+		// Prefer WebGLRenderer, fallback to CanvasRenderer if not available
+		//if( qs['canvas'] ) Detector.webgl = false;	// u mad?
+		console.log("Detector.webgl:", Detector.webgl);
+
+		var params = {canvas:flyer_canvas, antialias:true};
+		renderer = Detector.webgl ? new THREE.WebGLRenderer( params ) : new THREE.CanvasRenderer( params );
 		renderer.setClearColor( 0xfffff8, 1.0 );
 		renderer.sortObjects = false;	// render first-added objects first
+		renderer.setPixelRatio( window.devicePixelRatio );
+		if( !Detector.webgl ) renderer.setSize( 480, 480 );
 
-		var qs = getQueryParams();
 		if( qs['fps'] ) {
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
@@ -78,9 +86,19 @@ var Flyer = function(){
 		document.getElementById('info').style.top = INFO_TOP+'px';
 	}
 
+	// shim layer with setTimeout fallback
+	window.requestAnimFrame = (function(){
+		return  window.requestAnimationFrame       ||
+						window.webkitRequestAnimationFrame ||
+						window.mozRequestAnimationFrame    ||
+						function( callback ){
+							window.setTimeout(callback, 1000 / 60);
+						};
+	})();
+
 	var didTweenText = false;
 	function perFrame() {
-		requestAnimationFrame( perFrame );
+		requestAnimFrame( perFrame );
 
 		// Frame rate may not be constant 60fps. Time between frames determines how
 		// quickly to advance animations.
@@ -116,5 +134,5 @@ var Flyer = function(){
 
 var _flyer;
 window.onload = function(){
- 	_flyer = new Flyer();
+	 _flyer = new Flyer();
 }
