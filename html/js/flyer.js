@@ -1,9 +1,9 @@
 console.log("Hello world! Unleash the drones");
 
-const WIDTH = 480;
-const HEIGHT = 480;
+const WIDTH = 1920;
+const HEIGHT = 1080;
 
-const COPTER_COUNT = 90;
+const COPTER_COUNT = 160;
 
 var Flyer = function(){
 	var self = this;
@@ -33,7 +33,7 @@ var Flyer = function(){
 
 	function init3D(){
 		scene = new THREE.Scene();
-		camera = new THREE.PerspectiveCamera();
+		camera = new THREE.PerspectiveCamera(50, 1920.0 / 1080.0);
 		//scene.add( camera );
 
 		var qs = getQueryParams();
@@ -47,7 +47,7 @@ var Flyer = function(){
 		renderer.setClearColor( 0xfffff8, 1.0 );
 		renderer.sortObjects = false;	// render first-added objects first
 		renderer.setPixelRatio( window.devicePixelRatio );
-		if( !Detector.webgl ) renderer.setSize( 480, 480 );
+		if( !Detector.webgl ) renderer.setSize( 1920, 1080 );
 
 		if( qs['fps'] ) {
 			stats = new Stats();
@@ -70,14 +70,16 @@ var Flyer = function(){
 		}
 	}
 
-	const TITLE_TOP = 60;
+	const TITLE_TOP = 320;
 	const PUNK_TOP = 114;
 	const INFO_TOP = 280;
 
 	function tweenText(){
-		TweenLite.to( document.getElementById('title'), 1.5, {delay:3.5, css:{top:TITLE_TOP+"px"}, ease:Power2.easeOut} );
+		TweenLite.to( document.getElementById('title'), 1.5, {delay:2.5, css:{top:TITLE_TOP+"px"}, ease:Power2.easeOut} );
+		/*
 		TweenLite.to( document.getElementById('punk'), 1.5, {delay:4.5, css:{top:PUNK_TOP+"px"}, ease:Power2.easeOut} );
 		TweenLite.to( document.getElementById('info'), 1.5, {delay:5.0, css:{top:INFO_TOP+"px"}, ease:Power2.easeOut, onComplete:forceRepaintCSS} );
+		*/
 	}
 
 	function forceRepaintCSS(){

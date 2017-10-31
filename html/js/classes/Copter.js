@@ -20,8 +20,9 @@ function Copter( scene, distanceRatio ){
 	}
 
 	const LOC_SPREAD = 15.0;
+	const ASPECT = 1920.0 / 1080.0;
 	var spread = LOC_SPREAD * (1.0+distanceRatio*0.7);
-	var targetLoc = new THREE.Vector3( randBi(spread), randBi(spread), COPTER_Z - distanceRatio*30.0 );
+	var targetLoc = new THREE.Vector3( randBi(spread) * ASPECT, randBi(spread), COPTER_Z - distanceRatio*30.0 );
 	var loc = new THREE.Vector3( targetLoc.x, randRange(-100.0,-10000.0), targetLoc.z + randBi(40.0) );
 	var warblePhase = rand(999);
 
@@ -34,7 +35,7 @@ function Copter( scene, distanceRatio ){
 	var color1 = hsv2hex( rand(), saturation, 1.0-value );
 
 	function tweenToNewTargetLoc(){
-		TweenLite.to( targetLoc, randRange(3.0,5.0), {x:randBi(spread), y:randBi(spread), ease:Power2.easeInOut} );
+		TweenLite.to( targetLoc, randRange(3.0,5.0), {x:randBi(spread) * ASPECT, y:randBi(spread), ease:Power2.easeInOut} );
 	}
 
 	function initGeom(){
