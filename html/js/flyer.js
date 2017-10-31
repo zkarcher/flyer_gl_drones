@@ -1,7 +1,7 @@
 console.log("Hello world! Unleash the drones");
 
-const WIDTH = 1920;
-const HEIGHT = 1080;
+const WIDTH = 1920 / 2;
+const HEIGHT = 1080 / 2;
 
 const COPTER_COUNT = 160;
 
@@ -33,7 +33,7 @@ var Flyer = function(){
 
 	function init3D(){
 		scene = new THREE.Scene();
-		camera = new THREE.PerspectiveCamera(50, 1920.0 / 1080.0);
+		camera = new THREE.PerspectiveCamera(50, WIDTH / HEIGHT);
 		//scene.add( camera );
 
 		var qs = getQueryParams();
@@ -47,7 +47,7 @@ var Flyer = function(){
 		renderer.setClearColor( 0xfffff8, 1.0 );
 		renderer.sortObjects = false;	// render first-added objects first
 		renderer.setPixelRatio( window.devicePixelRatio );
-		if( !Detector.webgl ) renderer.setSize( 1920, 1080 );
+		if( !Detector.webgl ) renderer.setSize( WIDTH, HEIGHT );
 
 		if( qs['fps'] ) {
 			stats = new Stats();
@@ -70,7 +70,7 @@ var Flyer = function(){
 		}
 	}
 
-	const TITLE_TOP = 320;
+	const TITLE_TOP = 175;
 	const PUNK_TOP = 114;
 	const INFO_TOP = 280;
 
